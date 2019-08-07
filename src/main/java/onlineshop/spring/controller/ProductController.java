@@ -49,7 +49,8 @@ public class ProductController {
         String description = formData.getFirst("description");
         String stringPrice = formData.getFirst("price");
         if (isNullOrEmpty(name) || isNullOrEmpty(description) || isNullOrEmpty(stringPrice)) {
-            model.addAttribute("incompleteFormError", "The form is not fully completed!");
+            model.addAttribute("incompleteFormError",
+                    "The form is not fully completed!");
             model.addAttribute("lastEnteredName", name);
             model.addAttribute("lastEnteredDescription", description);
             model.addAttribute("lastEnteredPrice", stringPrice);
@@ -64,7 +65,8 @@ public class ProductController {
                 productService.addProduct(product);
                 return "redirect:/admin/product/all";
             } catch (NumberFormatException nfe) {
-                model.addAttribute("illegalPriceError", "Invalid price entered!");
+                model.addAttribute("illegalPriceError",
+                        "Invalid price entered!");
                 model.addAttribute("lastEnteredName", name);
                 model.addAttribute("lastEnteredDescription", description);
                 return "product-add";
@@ -95,7 +97,8 @@ public class ProductController {
         String stringPrice = formData.getFirst("price");
         if (isNullOrEmpty(name) || isNullOrEmpty(description) || isNullOrEmpty(stringPrice)) {
             model.addAttribute("id", id);
-            model.addAttribute("incompleteFormError", "The form is not fully completed!");
+            model.addAttribute("incompleteFormError",
+                    "The form is not fully completed!");
             model.addAttribute("lastEnteredName", name);
             model.addAttribute("lastEnteredDescription", description);
             model.addAttribute("lastEnteredPrice", stringPrice);
@@ -108,7 +111,7 @@ public class ProductController {
                 }
                 Product newProduct = new Product(name, description, price);
                 Optional<Product> productOptional = productService.getProductById(id);
-                productOptional.ifPresent(product -> productService.changeProduct(product, newProduct));
+                productOptional.ifPresent(prod -> productService.changeProduct(prod, newProduct));
                 return "redirect:/admin/product/all";
             } catch (NumberFormatException nfe) {
                 model.addAttribute("id", id);

@@ -34,7 +34,7 @@ public class BasketController {
             if (allProductsInBasket.size() == 0) {
                 model.addAttribute("emptyBasketError",
                         "Your basket is empty! To place an order please select a product");
-                return "redirect:/user/product/all";
+                return "forward:/user/product/all";
             } else {
                 Double totalPrice = allProductsInBasket.stream()
                         .mapToDouble(Product::getPrice).sum();
@@ -45,7 +45,7 @@ public class BasketController {
         } else {
             model.addAttribute("missingBasketError",
                     "Your basket does not exist, select the products and make a new one!");
-            return "redirect:/user/product/all";
+            return "forward:/user/product/all";
         }
     }
 
@@ -57,17 +57,17 @@ public class BasketController {
             if (basket.getProductBasket().size() == 0) {
                 model.addAttribute("emptyBasketError",
                         "Your basket is empty!");
-                return "redirect:/user/product/all";
+                return "forward:/user/product/all/";
             } else {
                 basketService.lockBasket(basket);
                 model.addAttribute("clearedBasket",
                         "Your basket has been cleared!");
-                return "redirect:/user/product/all";
+                return "forward:/user/product/all";
             }
         } else {
             model.addAttribute("missingBasketError",
                     "Your basket does not exist, select the products and make a new one!");
-            return "redirect:/user/product/all";
+            return "forward:/user/product/all";
         }
     }
 }

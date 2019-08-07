@@ -46,7 +46,8 @@ public class UserController {
         String role = formData.getFirst("role");
         if (isNullOrEmpty(email) || isNullOrEmpty(password)
                 || isNullOrEmpty(repeatPassword) || isNullOrEmpty(role)) {
-            model.addAttribute("incompleteFormError", "The form is not fully completed!");
+            model.addAttribute("incompleteFormError",
+                    "The form is not fully completed!");
             model.addAttribute("lastEnteredEmail", email);
             model.addAttribute("lastEnteredPassword", password);
             model.addAttribute("lastEnteredRepeatPassword", repeatPassword);
@@ -59,7 +60,8 @@ public class UserController {
                     userService.addUser(user);
                     return "redirect:/admin/user/all";
                 } else {
-                    model.addAttribute("userIsAlreadyPresentError", "The user with such email already exists!");
+                    model.addAttribute("userIsAlreadyPresentError",
+                            "The user with such email already exists!");
                     model.addAttribute("lastEnteredEmail", email);
                     model.addAttribute("lastEnteredPassword", password);
                     model.addAttribute("lastEnteredRepeatPassword", repeatPassword);
@@ -67,7 +69,8 @@ public class UserController {
                     return "user-add";
                 }
             } else {
-                model.addAttribute("passwordEquivalenceError", "The entered passwords are not identical!");
+                model.addAttribute("passwordEquivalenceError",
+                        "The entered passwords are not identical!");
                 model.addAttribute("lastEnteredEmail", email);
                 model.addAttribute("lastEnteredPassword", password);
                 model.addAttribute("lastEnteredRole", role);
@@ -98,7 +101,8 @@ public class UserController {
         String role = formData.getFirst("role");
         if (isNullOrEmpty(email) || isNullOrEmpty(password) || isNullOrEmpty(role)) {
             model.addAttribute("id", id);
-            model.addAttribute("incompleteFormError", "The form is not fully completed!");
+            model.addAttribute("incompleteFormError",
+                    "The form is not fully completed!");
             model.addAttribute("lastEnteredEmail", email);
             model.addAttribute("lastEnteredPassword", password);
             model.addAttribute("lastEnteredRole", role);
@@ -113,7 +117,8 @@ public class UserController {
                     return "redirect:/admin/user/all";
                 } else {
                     model.addAttribute("id", id);
-                    model.addAttribute("userIsAlreadyPresentError", "The user with such email already exists!");
+                    model.addAttribute("userIsAlreadyPresentError",
+                            "The user with such email already exists!");
                     model.addAttribute("lastEnteredEmail", email);
                     model.addAttribute("lastEnteredPassword", password);
                     model.addAttribute("lastEnteredRole", role);

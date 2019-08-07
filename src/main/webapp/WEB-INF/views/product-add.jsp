@@ -36,7 +36,8 @@
                 <td>
                     <button type="submit">Confirm</button><br>
                     <br>
-                    <input type="button" value="Back" onclick="window.location='/spring.mvc.onlineshop/admin/product/all'">
+                    <input type="button" value="Back"
+                           onclick="window.location='/spring.mvc.onlineshop/admin/product/all'">
                 </td>
             </tr>
         </table>

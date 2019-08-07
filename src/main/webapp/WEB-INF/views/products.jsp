@@ -32,16 +32,16 @@
         </tr>
         <c:forEach var="product" items="${allProducts}">
             <tr>
-                <td> ${product.getName()}</td>
-                <td> ${product.getDescription()}</td>
-                <td> ${product.getPrice()}</td>
+                <td> ${product.name}</td>
+                <td> ${product.description}</td>
+                <td> ${product.price}</td>
                 <td>
                     <input type="button" value="Edit"
-                           onclick="window.location='/spring.mvc.onlineshop/admin/product/edit?id=${product.getId()}'">
+                           onclick="window.location='/spring.mvc.onlineshop/admin/product/edit?id=${product.id}'">
                 </td>
                 <td>
                     <input type="button" value="Delete"
-                           onclick="window.location='/spring.mvc.onlineshop/admin/product/delete?id=${product.getId()}'">
+                           onclick="window.location='/spring.mvc.onlineshop/admin/product/delete?id=${product.id}'">
                 </td>
             </tr>
         </c:forEach>

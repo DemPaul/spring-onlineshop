@@ -42,7 +42,7 @@ public class CodeController {
                 model.addAttribute("successfulPurchase",
                         "Your purchase is completed successfully, wait for delivery! " +
                                 "You can select other products");
-                return "redirect:/user/product/all";
+                return "forward:/user/product/all";
             } else {
                 model.addAttribute("lastEnteredCode", receivedCode);
                 model.addAttribute("codeEquivalenceError",
@@ -52,7 +52,7 @@ public class CodeController {
         } else {
             model.addAttribute("missingOrderError",
                     "Your order does not exist, select the products and make a new one!");
-            return "redirect:/user/product/all";
+            return "forward:/user/product/all";
         }
     }
 }

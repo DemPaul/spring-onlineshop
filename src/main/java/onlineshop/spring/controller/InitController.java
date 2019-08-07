@@ -48,7 +48,7 @@ public class InitController {
             userService.addUser(user);
 
             Product product1 = new Product("Bread", "Black bread", 8.99);
-            Product product2 = new Product("Butter", "Classic butter", 10.99);
+            Product product2 = new Product("Butter", "Classic butter", 9.99);
             Product product3 = new Product("Knife", "Very sharp", 15.99);
             productService.addProduct(product1);
             productService.addProduct(product2);
@@ -68,7 +68,8 @@ public class InitController {
         String email = user.getEmail();
         String password = user.getPassword();
         if (isNullOrEmpty(email) || isNullOrEmpty(password)) {
-            model.addAttribute("incompleteFormError", "The form is not fully completed!");
+            model.addAttribute("incompleteFormError",
+                    "The form is not fully completed!");
             model.addAttribute("lastEnteredEmail", email);
             model.addAttribute("lastEnteredPassword", password);
             return "index";
@@ -76,9 +77,11 @@ public class InitController {
             Optional<User> userOptional = userService.getUserByEmail(email);
             if (userOptional.isPresent()) {
                 User userFromDb = userOptional.get();
-                String securePassword = HashUtil.getSha256SecurePassword(password, userFromDb.getSalt());
+                String securePassword = HashUtil
+                        .getSha256SecurePassword(password, userFromDb.getSalt());
                 if (securePassword.equals(userFromDb.getPassword())) {
                     user.setId(userFromDb.getId());
+                    user.setPassword(userFromDb.getPassword());
                     user.setRole(userFromDb.getRole());
                     user.setSalt(userFromDb.getSalt());
                     return "redirect:/admin/user/all";
@@ -105,12 +108,14 @@ public class InitController {
     }
 
     @RequestMapping(path = {"/register"}, method = RequestMethod.POST)
-    public String registrationPost(@RequestBody MultiValueMap<String, String> formData, Model model) {
+    public String registrationPost(
+            @RequestBody MultiValueMap<String, String> formData, Model model) {
         String email = formData.getFirst("email");
         String password = formData.getFirst("password");
         String repeatPassword = formData.getFirst("repeatPassword");
         if (isNullOrEmpty(email) || isNullOrEmpty(password) || isNullOrEmpty(repeatPassword)) {
-            model.addAttribute("incompleteFormError", "The form is not fully completed!");
+            model.addAttribute("incompleteFormError",
+                    "The form is not fully completed!");
             model.addAttribute("lastEnteredEmail", email);
             model.addAttribute("lastEnteredPassword", password);
             model.addAttribute("lastEnteredRepeatPassword", repeatPassword);
@@ -122,14 +127,16 @@ public class InitController {
                     userService.addUser(user);
                     return "redirect:/login";
                 } else {
-                    model.addAttribute("userIsAlreadyPresentError", "The user with such email already exists!");
+                    model.addAttribute("userIsAlreadyPresentError",
+                            "The user with such email already exists!");
                     model.addAttribute("lastEnteredEmail", email);
                     model.addAttribute("lastEnteredPassword", password);
                     model.addAttribute("lastEnteredRepeatPassword", repeatPassword);
                     return "register";
                 }
             } else {
-                model.addAttribute("passwordEquivalenceError", "The entered passwords are not identical!");
+                model.addAttribute("passwordEquivalenceError",
+                        "The entered passwords are not identical!");
                 model.addAttribute("lastEnteredEmail", email);
                 model.addAttribute("lastEnteredPassword", password);
                 return "register";

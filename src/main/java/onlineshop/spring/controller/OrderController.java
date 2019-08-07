@@ -52,14 +52,14 @@ public class OrderController {
             if (basket.getProductBasket().size() == 0) {
                 model.addAttribute("emptyBasketError",
                         "Your basket is empty! To place an order please select a product");
-                return "redirect:/user/product/all";
+                return "forward:/user/product/all";
             } else {
                 return "order";
             }
         } else {
             model.addAttribute("missingBasketError",
                     "Your basket does not exist, select the products and make a new one!");
-            return "redirect:/user/product/all";
+            return "forward:/user/product/all";
         }
     }
 
@@ -73,9 +73,11 @@ public class OrderController {
         String city = formData.getFirst("city");
         String street = formData.getFirst("street");
         String houseNumber = formData.getFirst("houseNumber");
-        if (isNullOrEmpty(name) || isNullOrEmpty(email) || isNullOrEmpty(phoneNumber) || isNullOrEmpty(country)
-                || isNullOrEmpty(city) || isNullOrEmpty(street) || isNullOrEmpty(houseNumber)) {
-            model.addAttribute("incompleteFormError", "The form is not fully completed!");
+        if (isNullOrEmpty(name) || isNullOrEmpty(email) || isNullOrEmpty(phoneNumber)
+                || isNullOrEmpty(country) || isNullOrEmpty(city)
+                || isNullOrEmpty(street) || isNullOrEmpty(houseNumber)) {
+            model.addAttribute("incompleteFormError",
+                    "The form is not fully completed!");
             model.addAttribute("lastEnteredName", name);
             model.addAttribute("lastEnteredEmail", email);
             model.addAttribute("lastEnteredPhoneNumber", phoneNumber);
@@ -102,7 +104,7 @@ public class OrderController {
             } else {
                 model.addAttribute("missingBasketError",
                         "Your basket does not exist, select the products and make a new one!");
-                return "redirect:/user/product/all";
+                return "forward:/user/product/all";
             }
         }
     }
