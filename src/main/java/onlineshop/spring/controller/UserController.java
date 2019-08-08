@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @RequestMapping(path = {"/add"}, method = RequestMethod.GET)
-    public String addUserGet(Model model) {
+    public String addUserGet() {
         return "user-add";
     }
 
@@ -131,7 +131,7 @@ public class UserController {
     }
 
     @RequestMapping(path = {"/delete"}, method = RequestMethod.GET)
-    public String deleteUserGet(@RequestParam("id") Long id, Model model) {
+    public String deleteUserGet(@RequestParam("id") Long id) {
         Optional<User> userOptional = userService.getUserById(id);
         userOptional.ifPresent(userService::removeUser);
         return "redirect:/admin/user/all";

@@ -40,7 +40,7 @@ public class InitController {
     }
 
     @RequestMapping(path = {"/"}, method = RequestMethod.GET)
-    public String init(Model model) {
+    public String init() {
         if (!initialized) {
             User admin = new User("admin@admin", "admin", "admin");
             User user = new User("1@1", "1111", "user");
@@ -59,7 +59,7 @@ public class InitController {
     }
 
     @RequestMapping(path = {"/login"}, method = RequestMethod.GET)
-    public String loginGet(Model model) {
+    public String loginGet() {
         return "index";
     }
 
@@ -103,7 +103,7 @@ public class InitController {
     }
 
     @RequestMapping(path = {"/register"}, method = RequestMethod.GET)
-    public String registrationGet(Model model) {
+    public String registrationGet() {
         return "register";
     }
 

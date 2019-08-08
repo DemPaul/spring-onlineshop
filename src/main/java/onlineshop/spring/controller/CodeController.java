@@ -26,7 +26,7 @@ public class CodeController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String confirmCodeGet(Model model) {
+    public String confirmCodeGet() {
         return "code";
     }
 

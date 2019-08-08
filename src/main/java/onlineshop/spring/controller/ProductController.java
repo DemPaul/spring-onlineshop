@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     @RequestMapping(path = {"admin/product/add"}, method = RequestMethod.GET)
-    public String addProductGet(Model model) {
+    public String addProductGet() {
         return "product-add";
     }
 
@@ -90,7 +90,7 @@ public class ProductController {
     }
 
     @RequestMapping(path = {"admin/product/edit"}, method = RequestMethod.POST)
-    public String editUserPost(@RequestParam("id") Long id,
+    public String editProductPost(@RequestParam("id") Long id,
                                @RequestBody MultiValueMap<String, String> formData, Model model) {
         String name = formData.getFirst("name");
         String description = formData.getFirst("description");
@@ -124,7 +124,7 @@ public class ProductController {
     }
 
     @RequestMapping(path = {"admin/product/delete"}, method = RequestMethod.GET)
-    public String deleteUserGet(@RequestParam("id") Long id, Model model) {
+    public String deleteProductGet(@RequestParam("id") Long id) {
         Optional<Product> productOptional = productService.getProductById(id);
         productOptional.ifPresent(productService::removeProduct);
         return "redirect:/admin/product/all";
@@ -154,7 +154,7 @@ public class ProductController {
 
 
     @RequestMapping(path = {"user/product/buy"}, method = RequestMethod.GET)
-    public String deleteUserGet(@SessionAttribute("user") User user,
+    public String buyProductGet(@SessionAttribute("user") User user,
                                 @RequestParam("id") Long id, Model model) {
         Optional<Product> productOptional = productService.getProductById(id);
         if (productOptional.isPresent()) {
