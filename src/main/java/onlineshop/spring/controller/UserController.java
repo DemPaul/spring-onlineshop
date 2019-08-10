@@ -5,8 +5,7 @@ import onlineshop.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,11 +38,11 @@ public class UserController {
     }
 
     @RequestMapping(path = {"/add"}, method = RequestMethod.POST)
-    public String addUserPost(@RequestBody MultiValueMap<String, String> formData, Model model) {
-        String email = formData.getFirst("email");
-        String password = formData.getFirst("password");
-        String repeatPassword = formData.getFirst("repeatPassword");
-        String role = formData.getFirst("role");
+    public String addUserPost(@ModelAttribute("user") User user,
+                              @RequestParam String repeatPassword, Model model) {
+        String email = user.getEmail();
+        String password = user.getPassword();
+        String role = user.getRole();
         if (isNullOrEmpty(email) || isNullOrEmpty(password)
                 || isNullOrEmpty(repeatPassword) || isNullOrEmpty(role)) {
             model.addAttribute("incompleteFormError",
@@ -55,7 +54,6 @@ public class UserController {
             return "user-add";
         } else {
             if (password.equals(repeatPassword)) {
-                User user = new User(email, password, role);
                 if (!userService.isPresent(email)) {
                     userService.addUser(user);
                     return "redirect:/admin/user/all";
@@ -94,11 +92,11 @@ public class UserController {
     }
 
     @RequestMapping(path = {"/edit"}, method = RequestMethod.POST)
-    public String editUserPost(@RequestParam("id") Long id,
-                               @RequestBody MultiValueMap<String, String> formData, Model model) {
-        String email = formData.getFirst("email");
-        String password = formData.getFirst("password");
-        String role = formData.getFirst("role");
+    public String editUserPost(@ModelAttribute("user") User user, Model model) {
+        Long id = user.getId();
+        String email = user.getEmail();
+        String password = user.getPassword();
+        String role = user.getRole();
         if (isNullOrEmpty(email) || isNullOrEmpty(password) || isNullOrEmpty(role)) {
             model.addAttribute("id", id);
             model.addAttribute("incompleteFormError",

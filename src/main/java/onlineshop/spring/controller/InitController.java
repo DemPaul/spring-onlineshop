@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.annotation.PostConstruct;
 import java.util.Objects;
 import java.util.Optional;
 
 @SessionAttributes("user")
 @Controller
 public class InitController {
-
-    private static boolean initialized;
 
     private UserService userService;
     private ProductService productService;
@@ -40,21 +39,7 @@ public class InitController {
     }
 
     @RequestMapping(path = {"/"}, method = RequestMethod.GET)
-    public String init() {
-        if (!initialized) {
-            User admin = new User("admin@admin", "admin", "admin");
-            User user = new User("1@1", "1111", "user");
-            userService.addUser(admin);
-            userService.addUser(user);
-
-            Product product1 = new Product("Bread", "Black bread", 8.99);
-            Product product2 = new Product("Butter", "Classic butter", 9.99);
-            Product product3 = new Product("Knife", "Very sharp", 15.99);
-            productService.addProduct(product1);
-            productService.addProduct(product2);
-            productService.addProduct(product3);
-            initialized = true;
-        }
+    public String start() {
         return "index";
     }
 
@@ -148,6 +133,21 @@ public class InitController {
     public String exit(SessionStatus status) {
         status.setComplete();
         return "redirect:/login";
+    }
+
+    @PostConstruct
+    public void init() {
+        User admin = new User("admin@admin", "admin", "admin");
+        User user = new User("1@1", "1111", "user");
+        userService.addUser(admin);
+        userService.addUser(user);
+
+        Product product1 = new Product("Bread", "Black bread", 8.99);
+        Product product2 = new Product("Butter", "Classic butter", 9.99);
+        Product product3 = new Product("Knife", "Very sharp", 15.99);
+        productService.addProduct(product1);
+        productService.addProduct(product2);
+        productService.addProduct(product3);
     }
 
     private boolean isNullOrEmpty(String requestParameter) {

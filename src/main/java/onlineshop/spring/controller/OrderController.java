@@ -14,10 +14,9 @@ import onlineshop.spring.utils.ConfirmCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.Objects;
@@ -65,14 +64,14 @@ public class OrderController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String orderPost(@SessionAttribute("user") User user,
-                            @RequestBody MultiValueMap<String, String> formData, Model model) {
-        String name = formData.getFirst("name");
-        String email = formData.getFirst("email");
-        String phoneNumber = formData.getFirst("phoneNumber");
-        String country = formData.getFirst("country");
-        String city = formData.getFirst("city");
-        String street = formData.getFirst("street");
-        String houseNumber = formData.getFirst("houseNumber");
+                            @RequestParam("name") String name,
+                            @RequestParam("email") String email,
+                            @RequestParam("phoneNumber") String phoneNumber,
+                            @RequestParam("country") String country,
+                            @RequestParam("city") String city,
+                            @RequestParam("street") String street,
+                            @RequestParam("houseNumber") String houseNumber,
+                            Model model) {
         if (isNullOrEmpty(name) || isNullOrEmpty(email) || isNullOrEmpty(phoneNumber)
                 || isNullOrEmpty(country) || isNullOrEmpty(city)
                 || isNullOrEmpty(street) || isNullOrEmpty(houseNumber)) {
