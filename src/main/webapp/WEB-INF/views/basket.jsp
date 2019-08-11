@@ -5,8 +5,9 @@
   Time: 0:53
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Basket</title>
@@ -66,9 +67,8 @@
         <tr>
             <td>
                 <center>
-                    <form action="/spring.mvc.onlineshop/exit" method="get">
-                        <button type="submit">Exit</button>
-                    </form>
+                    <input type="button" value="Exit"
+                           onclick="window.location='<spring:url value="/signout"/>'">
                 </center>
             </td>
         </tr>

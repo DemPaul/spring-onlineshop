@@ -35,9 +35,14 @@
                 <td>Role:</td>
                 <td>
                     <p><select name="role">
-                        <option selected hidden value="${lastEnteredRole}">${lastEnteredRole}</option>
-                        <option value="user">user</option>
-                        <option value="admin">admin</option>
+                        <option selected hidden
+                                <c:if test="${lastEnteredRole == 'ROLE_ADMIN'}">value="ROLE_ADMIN"</c:if>
+                                <c:if test="${lastEnteredRole == 'ROLE_USER'}">value="ROLE_USER"</c:if>>
+                            <c:if test="${lastEnteredRole == 'ROLE_ADMIN'}"> admin </c:if>
+                            <c:if test="${lastEnteredRole == 'ROLE_USER'}"> user </c:if>
+                        </option>
+                        <option value="ROLE_USER">user</option>
+                        <option value="ROLE_ADMIN">admin</option>
                     </select></p>
                 </td>
             </tr>
@@ -45,7 +50,8 @@
                 <td></td>
                 <td>
                     <br>
-                    <button type="submit">Confirm</button><br>
+                    <button type="submit">Confirm</button>
+                    <br>
                     <br>
                     <input type="button" value="Back"
                            onclick="window.location='/spring.mvc.onlineshop/admin/user/all'">

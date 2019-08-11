@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1" %>
 <!DOCTYPE html>
@@ -10,7 +12,7 @@
 <div align="center">
     <h1>Welcome!</h1>
 
-    <form action="/spring.mvc.onlineshop/login" method="post">
+    <form action="<spring:url value="/signin"/>" method="post">
         <table>
             <tr>
                 <td>Email:</td>
@@ -47,9 +49,10 @@
     <table>
         <tr>
             <td>
-                <h3>${incompleteFormError}</h3>
-
-                <h3>${LoginError}</h3>
+                <c:if test="${not empty sessionScope.message}">
+                    <span style="color:red"><c:out value="${sessionScope.message}"/></span>
+                    <c:remove var="message" scope="session" />
+                </c:if>
             </td>
         </tr>
     </table>

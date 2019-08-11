@@ -12,12 +12,12 @@ import onlineshop.spring.service.MailService;
 import onlineshop.spring.service.OrderService;
 import onlineshop.spring.utils.ConfirmCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -44,7 +44,7 @@ public class OrderController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String orderGet(@SessionAttribute("user") User user, Model model) {
+    public String orderGet(@AuthenticationPrincipal User user, Model model) {
         Optional<Basket> basketOptional = basketService.getLatestBasketOfUser(user);
         if (basketOptional.isPresent()) {
             Basket basket = basketOptional.get();
@@ -63,7 +63,7 @@ public class OrderController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String orderPost(@SessionAttribute("user") User user,
+    public String orderPost(@AuthenticationPrincipal User user,
                             @RequestParam("name") String name,
                             @RequestParam("email") String email,
                             @RequestParam("phoneNumber") String phoneNumber,

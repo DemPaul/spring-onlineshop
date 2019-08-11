@@ -33,10 +33,10 @@
             <tr>
                 <td>Role:</td>
                 <td>
-                    <input name="role" type="radio" value="admin"
-                    <c:if test="${lastEnteredRole == 'admin'}"> checked </c:if>> Admin
-                    <input name="role" type="radio" value="user"
-                    <c:if test="${lastEnteredRole == 'user'}"> checked </c:if>> User
+                    <input name="role" type="radio" value="ROLE_ADMIN"
+                    <c:if test="${lastEnteredRole == 'ROLE_ADMIN'}"> checked </c:if>> Admin
+                    <input name="role" type="radio" value="ROLE_USER"
+                    <c:if test="${lastEnteredRole == 'ROLE_USER'}"> checked </c:if>> User
                 </td>
             </tr>
             <tr>

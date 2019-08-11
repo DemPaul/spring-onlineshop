@@ -5,12 +5,12 @@ import onlineshop.spring.entity.User;
 
 import onlineshop.spring.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ public class CodeController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String confirmCodePost(@SessionAttribute("user") User user,
+    public String confirmCodePost(@AuthenticationPrincipal User user,
                                   @RequestParam("code") String receivedCode, Model model) {
         Optional<Order> orderOptional = orderService.getLatestOrderOfUser(user);
         if (orderOptional.isPresent()) {

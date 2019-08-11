@@ -6,6 +6,7 @@ import onlineshop.spring.entity.User;
 import onlineshop.spring.service.BasketService;
 import onlineshop.spring.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 import java.util.Objects;
@@ -91,7 +91,7 @@ public class ProductController {
 
     @RequestMapping(path = {"admin/product/edit"}, method = RequestMethod.POST)
     public String editProductPost(@RequestParam("id") Long id,
-                               @RequestBody MultiValueMap<String, String> formData, Model model) {
+                                  @RequestBody MultiValueMap<String, String> formData, Model model) {
         String name = formData.getFirst("name");
         String description = formData.getFirst("description");
         String stringPrice = formData.getFirst("price");
@@ -131,7 +131,7 @@ public class ProductController {
     }
 
     @RequestMapping(path = {"user/product/all"}, method = RequestMethod.GET)
-    public String allProductsToBuyGet(@SessionAttribute("user") User user, Model model) {
+    public String allProductsToBuyGet(@AuthenticationPrincipal User user, Model model) {
         List<Product> allProductsToBuy = productService.getAll();
         Optional<Basket> basketOptional = basketService.getLatestBasketOfUser(user);
         if (basketOptional.isPresent()) {
@@ -154,7 +154,7 @@ public class ProductController {
 
 
     @RequestMapping(path = {"user/product/buy"}, method = RequestMethod.GET)
-    public String buyProductGet(@SessionAttribute("user") User user,
+    public String buyProductGet(@AuthenticationPrincipal User user,
                                 @RequestParam("id") Long id, Model model) {
         Optional<Product> productOptional = productService.getProductById(id);
         if (productOptional.isPresent()) {

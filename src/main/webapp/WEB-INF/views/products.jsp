@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -64,9 +65,8 @@
         <tr>
             <td>
                 <center>
-                    <form action="/spring.mvc.onlineshop/exit" method="get">
-                        <button>Exit</button>
-                    </form>
+                    <input type="button" value="Exit"
+                           onclick="window.location='<spring:url value="/signout"/>'">
                 </center>
             </td>
         </tr>

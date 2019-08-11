@@ -2,11 +2,11 @@ package onlineshop.spring.dao.impl;
 
 import onlineshop.spring.dao.UserDao;
 import onlineshop.spring.entity.User;
-import onlineshop.spring.utils.HashUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
@@ -20,13 +20,15 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     private static final Logger userDaoLogger = Logger.getLogger(UserDaoImpl.class);
 
     @Override
     public void addUser(User user) {
         try {
-            user.setSalt(HashUtil.getSalt());
-            user.setPassword(HashUtil.getSha256SecurePassword(user.getPassword(), user.getSalt()));
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             sessionFactory.getCurrentSession().save(user);
             userDaoLogger.info("User " + user + " added to the DataBase");
         } catch (Exception e) {
@@ -90,8 +92,7 @@ public class UserDaoImpl implements UserDao {
     public void changeUser(User oldUser, User newUser) {
         try {
             oldUser.setEmail(newUser.getEmail());
-            oldUser.setPassword(
-                    HashUtil.getSha256SecurePassword(newUser.getPassword(), oldUser.getSalt()));
+            oldUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
             oldUser.setRole(newUser.getRole());
             sessionFactory.getCurrentSession().update(oldUser);
             userDaoLogger.info("User " + oldUser + " changed in DataBase to " + newUser);
