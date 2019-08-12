@@ -35,14 +35,14 @@
                 <td>Role:</td>
                 <td>
                     <p><select name="role">
-                        <option selected hidden
-                                <c:if test="${lastEnteredRole == 'ROLE_ADMIN'}">value="ROLE_ADMIN"</c:if>
-                                <c:if test="${lastEnteredRole == 'ROLE_USER'}">value="ROLE_USER"</c:if>>
-                            <c:if test="${lastEnteredRole == 'ROLE_ADMIN'}"> admin </c:if>
-                            <c:if test="${lastEnteredRole == 'ROLE_USER'}"> user </c:if>
-                        </option>
-                        <option value="ROLE_USER">user</option>
+                        <c:if test="${lastEnteredRole == 'ROLE_ADMIN'}">
+                            <option selected hidden value="ROLE_ADMIN"> admin </option>
+                        </c:if>
+                        <c:if test="${lastEnteredRole == 'ROLE_USER'}">
+                            <option selected hidden value="ROLE_USER"> user </option>
+                        </c:if>
                         <option value="ROLE_ADMIN">admin</option>
+                        <option value="ROLE_USER">user</option>
                     </select></p>
                 </td>
             </tr>

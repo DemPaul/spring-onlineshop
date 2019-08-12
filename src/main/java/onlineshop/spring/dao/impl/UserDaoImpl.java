@@ -105,6 +105,10 @@ public class UserDaoImpl implements UserDao {
     public void removeUser(User user) {
         try {
             sessionFactory.getCurrentSession().delete(user);
+            Query query = sessionFactory.getCurrentSession()
+                    .createQuery("delete Basket where user = :user");
+            query.setParameter("user", user);
+            query.executeUpdate();
             userDaoLogger.info("User " + user + "and all his data removed from DataBase");
         } catch (Exception e) {
             userDaoLogger.error("Problem in working with the DataBase, User "
