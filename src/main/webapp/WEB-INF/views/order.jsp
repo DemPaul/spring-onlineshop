@@ -52,7 +52,7 @@
         <table>
             <tr>
                 <div align="center">
-                    <button type="submit">Confirm</button>
+                    <button type="submit">Place Order</button>
                     <br>
                     <br>
                     <input type="button" value="Back"

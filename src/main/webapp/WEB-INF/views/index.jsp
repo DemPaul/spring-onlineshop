@@ -16,11 +16,21 @@
         <table>
             <tr>
                 <td>Email:</td>
-                <td><input value="${lastEnteredEmail}" name="email" type="email"/></td>
+                <td><input
+                        <c:if test="${not empty sessionScope.lastEnteredEmail}">
+                            value="${sessionScope.lastEnteredEmail}"
+                            <c:remove var="lastEnteredEmail" scope="session"/>
+                        </c:if>
+                        name="email" type="email"/></td>
             </tr>
             <tr>
                 <td>Password:</td>
-                <td><input value="${lastEnteredPassword}" name="password" type="password"/></td>
+                <td><input
+                        <c:if test="${not empty sessionScope.lastEnteredPassword}">
+                            value="${sessionScope.lastEnteredPassword}"
+                            <c:remove var="lastEnteredPassword" scope="session"/>
+                        </c:if>
+                        name="password" type="password"/></td>
             </tr>
         </table>
         <table>
@@ -51,7 +61,7 @@
             <td>
                 <c:if test="${not empty sessionScope.message}">
                     <span style="color:red"><c:out value="${sessionScope.message}"/></span>
-                    <c:remove var="message" scope="session" />
+                    <c:remove var="message" scope="session"/>
                 </c:if>
             </td>
         </tr>

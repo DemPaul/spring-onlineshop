@@ -1,14 +1,19 @@
 package onlineshop.spring.config;
 
+import onlineshop.spring.handler.CustomAuthenticationFailureHandler;
+import onlineshop.spring.handler.CustomAuthenticationSuccessHandler;
+import onlineshop.spring.handler.CustomLogoutSuccessHandler;
 import onlineshop.spring.service.impl.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -21,6 +26,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+
+    @Bean
+    public LogoutSuccessHandler customLogoutSuccessHandler() {
+        return new CustomLogoutSuccessHandler();
     }
 
     @Override
@@ -41,30 +61,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/signin")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .successHandler((req, res, auth) -> {
-                    res.sendRedirect("/spring.mvc.onlineshop/");
-                })
-                .failureHandler((req, res, exp) -> {
-                    String errorMessage;
-                    if (exp.getClass().isAssignableFrom(NullPointerException.class)) {
-                        errorMessage = "The form is not fully completed!";
-                    } else if (exp.getClass().isAssignableFrom(BadCredentialsException.class)) {
-                        errorMessage = "Wrong email or password! Check them and try again.";
-                    } else {
-                        errorMessage = "Unknown error - " + exp.getMessage();
-                    }
-                    req.getSession().setAttribute("message", errorMessage);
-                    res.sendRedirect("/spring.mvc.onlineshop/login");
-                })
+                .successHandler(customAuthenticationSuccessHandler())
+                .failureHandler(customAuthenticationFailureHandler())
                 .permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/signout")
-                .logoutSuccessHandler((req, res, auth) -> {
-                    req.getSession().setAttribute("message",
-                            "You are successfully logged out!");
-                    res.sendRedirect("/spring.mvc.onlineshop/login");
-                })
+                .logoutSuccessHandler(customLogoutSuccessHandler())
                 .permitAll()
                 .and()
                 .csrf().disable();

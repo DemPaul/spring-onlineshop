@@ -42,6 +42,8 @@ public class BasketDaoImpl implements BasketDao {
             query.setParameter("user", user);
             Basket basket = (Basket) query.list().get(0);
             return Optional.of(basket);
+        } catch (IndexOutOfBoundsException ie) {
+            basketDaoLogger.debug("Problem in working with the DataBase");
         } catch (Exception e) {
             basketDaoLogger.error("Problem in working with the DataBase", e);
         }

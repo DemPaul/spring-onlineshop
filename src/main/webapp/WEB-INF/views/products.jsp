@@ -17,8 +17,10 @@
 
 <div align="center">
     <h3>
-        <form action="/spring.mvc.onlineshop/admin/product/add" method="get">
-            <button>Add new product</button>
+        <form action="/spring.mvc.onlineshop/admin/user/all" method="get">
+            <h3>
+                <button>Users</button>
+            </h3>
         </form>
     </h3>
 
@@ -54,10 +56,8 @@
             <td>
                 <h4>You can view all users if you want! </h4>
                 <center>
-                    <form action="/spring.mvc.onlineshop/admin/user/all" method="get">
-                        <h3>
-                            <button>Users</button>
-                        </h3>
+                    <form action="/spring.mvc.onlineshop/admin/product/add" method="get">
+                        <button>Add new product</button>
                     </form>
                 </center>
             </td>
