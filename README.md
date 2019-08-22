@@ -1,5 +1,5 @@
-<h1>Online Shop on Tomcat 8.5.42<h1>
-
+<h1>Online Shop on Tomcat 8.5.42
+  
 <p>Technologies/Frameworks: JSP, Hibernate, JDBC, Maven
 <p>RDBMS: MySQL
 
