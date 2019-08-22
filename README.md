@@ -3,5 +3,5 @@
 <p>Technologies/Frameworks: JSP, Hibernate, JDBC, Maven
 <p>RDBMS: MySQL
 
-<li>● developing web-application and new features
-<li>● conducting software analysis, programming, testing and debugging
+<li>developing web-application and new features
+<li>conducting software analysis, programming, testing and debugging
