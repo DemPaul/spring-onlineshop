@@ -1,6 +1,6 @@
 <h1>Online Shop on Tomcat 8.5.42
   
-<p>Technologies/Frameworks: JSP, Hibernate, JDBC, Maven
+<h5><p>Technologies/Frameworks: JSP, Hibernate, JDBC, Maven
 <p>RDBMS: MySQL
 
 <li>developing web-application and new features
