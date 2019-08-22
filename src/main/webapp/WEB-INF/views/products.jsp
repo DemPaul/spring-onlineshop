@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,8 +17,10 @@
 
 <div align="center">
     <h3>
-        <form action="/spring.mvc.onlineshop/admin/product/add" method="get">
-            <button>Add new product</button>
+        <form action="/spring.mvc.onlineshop/admin/user/all" method="get">
+            <h3>
+                <button>Users</button>
+            </h3>
         </form>
     </h3>
 
@@ -53,10 +56,8 @@
             <td>
                 <h4>You can view all users if you want! </h4>
                 <center>
-                    <form action="/spring.mvc.onlineshop/admin/user/all" method="get">
-                        <h3>
-                            <button>Users</button>
-                        </h3>
+                    <form action="/spring.mvc.onlineshop/admin/product/add" method="get">
+                        <button>Add new product</button>
                     </form>
                 </center>
             </td>
@@ -64,9 +65,8 @@
         <tr>
             <td>
                 <center>
-                    <form action="/spring.mvc.onlineshop/exit" method="get">
-                        <button>Exit</button>
-                    </form>
+                    <input type="button" value="Exit"
+                           onclick="window.location='<spring:url value="/signout"/>'">
                 </center>
             </td>
         </tr>

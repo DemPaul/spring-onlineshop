@@ -4,23 +4,18 @@ import onlineshop.spring.entity.Product;
 import onlineshop.spring.entity.User;
 import onlineshop.spring.service.ProductService;
 import onlineshop.spring.service.UserService;
-import onlineshop.spring.utils.HashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
-import java.util.Optional;
 
-@SessionAttributes("user")
 @Controller
 public class InitController {
 
@@ -33,57 +28,15 @@ public class InitController {
         this.productService = productService;
     }
 
-    @ModelAttribute("user")
-    public User setUpUserForm() {
-        return new User();
-    }
-
     @RequestMapping(path = {"/"}, method = RequestMethod.GET)
-    public String start() {
-        return "index";
-    }
-
-    @RequestMapping(path = {"/login"}, method = RequestMethod.GET)
-    public String loginGet() {
-        return "index";
-    }
-
-    @RequestMapping(path = {"/login"}, method = RequestMethod.POST)
-    public String loginPost(@ModelAttribute("user") User user, Model model) {
-        String email = user.getEmail();
-        String password = user.getPassword();
-        if (isNullOrEmpty(email) || isNullOrEmpty(password)) {
-            model.addAttribute("incompleteFormError",
-                    "The form is not fully completed!");
-            model.addAttribute("lastEnteredEmail", email);
-            model.addAttribute("lastEnteredPassword", password);
-            return "index";
+    public String index(@AuthenticationPrincipal User user) {
+        String role = user.getRole();
+        if (role.equals("ROLE_ADMIN")) {
+            return "redirect:/admin/user/all";
+        } else if (role.equals("ROLE_USER")) {
+            return "redirect:/user/product/all";
         } else {
-            Optional<User> userOptional = userService.getUserByEmail(email);
-            if (userOptional.isPresent()) {
-                User userFromDb = userOptional.get();
-                String securePassword = HashUtil
-                        .getSha256SecurePassword(password, userFromDb.getSalt());
-                if (securePassword.equals(userFromDb.getPassword())) {
-                    user.setId(userFromDb.getId());
-                    user.setPassword(userFromDb.getPassword());
-                    user.setRole(userFromDb.getRole());
-                    user.setSalt(userFromDb.getSalt());
-                    return "redirect:/admin/user/all";
-                } else {
-                    model.addAttribute("LoginError",
-                            "Wrong email or password! Check them and try again.");
-                    model.addAttribute("lastEnteredEmail", email);
-                    model.addAttribute("lastEnteredPassword", password);
-                    return "index";
-                }
-            } else {
-                model.addAttribute("LoginError",
-                        "Wrong email or password! Check them and try again.");
-                model.addAttribute("lastEnteredEmail", email);
-                model.addAttribute("lastEnteredPassword", password);
-                return "index";
-            }
+            return "index";
         }
     }
 
@@ -107,7 +60,7 @@ public class InitController {
             return "register";
         } else {
             if (password.equals(repeatPassword)) {
-                User user = new User(email, password, "user");
+                User user = new User(email, password, "ROLE_USER");
                 if (!userService.isPresent(email)) {
                     userService.addUser(user);
                     return "redirect:/login";
@@ -129,16 +82,10 @@ public class InitController {
         }
     }
 
-    @RequestMapping(path = {"/exit"}, method = RequestMethod.GET)
-    public String exit(SessionStatus status) {
-        status.setComplete();
-        return "redirect:/login";
-    }
-
     @PostConstruct
     public void init() {
-        User admin = new User("admin@admin", "admin", "admin");
-        User user = new User("1@1", "1111", "user");
+        User admin = new User("admin@admin", "admin", "ROLE_ADMIN");
+        User user = new User("1@1", "1111", "ROLE_USER");
         userService.addUser(admin);
         userService.addUser(user);
 

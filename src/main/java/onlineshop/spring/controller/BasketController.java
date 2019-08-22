@@ -5,11 +5,11 @@ import onlineshop.spring.entity.Product;
 import onlineshop.spring.entity.User;
 import onlineshop.spring.service.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +26,7 @@ public class BasketController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String checkBasket(@SessionAttribute("user") User user, Model model) {
+    public String checkBasket(@AuthenticationPrincipal User user, Model model) {
         Optional<Basket> basketOptional = basketService.getLatestBasketOfUser(user);
         if (basketOptional.isPresent()) {
             Basket basket = basketOptional.get();
@@ -50,7 +50,7 @@ public class BasketController {
     }
 
     @RequestMapping(path = {"/clear"}, method = RequestMethod.GET)
-    public String clearBasket(@SessionAttribute("user") User user, Model model) {
+    public String clearBasket(@AuthenticationPrincipal User user, Model model) {
         Optional<Basket> basketOptional = basketService.getLatestBasketOfUser(user);
         if (basketOptional.isPresent()) {
             Basket basket = basketOptional.get();

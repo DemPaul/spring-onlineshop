@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,8 +18,10 @@
 <div align="center">
 
     <h3>
-        <form action="/spring.mvc.onlineshop/admin/user/add" method="get">
-            <button>Add new user</button>
+        <form action="/spring.mvc.onlineshop/admin/product/all" method="get">
+            <h3>
+                <button>Products</button>
+            </h3>
         </form>
     </h3>
 
@@ -35,7 +38,10 @@
             <tr>
                 <td> ${user.email}</td>
                 <td> ********</td>
-                <td> ${user.role}</td>
+                <td>
+                    <c:if test="${user.role == 'ROLE_ADMIN'}"> admin </c:if>
+                    <c:if test="${user.role == 'ROLE_USER'}"> user </c:if>
+                </td>
                 <td>
                     <input type="button" value="Edit"
                            onclick="window.location='/spring.mvc.onlineshop/admin/user/edit?id=${user.id}'">
@@ -55,10 +61,8 @@
                 <h4>You can view all products if you want! </h4>
                 <center>
                     <center>
-                        <form action="/spring.mvc.onlineshop/admin/product/all" method="get">
-                            <h3>
-                                <button>Products</button>
-                            </h3>
+                        <form action="/spring.mvc.onlineshop/admin/user/add" method="get">
+                            <button>Add new user</button>
                         </form>
                     </center>
                 </center>
@@ -67,9 +71,8 @@
         <tr>
             <td>
                 <center>
-                    <form action="/spring.mvc.onlineshop/exit" method="get">
-                        <button>Exit</button>
-                    </form>
+                    <input type="button" value="Exit"
+                           onclick="window.location='<spring:url value="/signout"/>'">
                 </center>
             </td>
         </tr>

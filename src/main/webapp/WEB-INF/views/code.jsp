@@ -5,6 +5,7 @@
   Time: 1:25
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -39,7 +40,7 @@
                            onclick="window.location='/spring.mvc.onlineshop/user/product/all'"><br>
                     <br>
                     <input type="button" value="Exit"
-                           onclick="window.location='/spring.mvc.onlineshop/exit'">
+                           onclick="window.location='<spring:url value="/signout"/>'">
                 </center>
             </td>
         </tr>
